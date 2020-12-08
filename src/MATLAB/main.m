@@ -44,11 +44,12 @@ function []= main()
         %visualization(pos,MCfiles(i)); % comment this line if you get bored of my poor animation
         visualization_adapted(Body, time, pos, ori);
         
+        % COMPUTE ENERGIES
+        
         disp('Plotting results:');
         
         %steps = length(grdf);
         
-        %% TODO
         %% Compare results
         %comparing the error
         %ForMom_Error(MCfiles(i),steps,F, grdf, grdm);
@@ -57,7 +58,7 @@ function []= main()
         disp('Type a key to continue');
         pause();
 
-        % Not very similar, possible error sources:
+        % Possible error sources:
         % 1. There must be mistakes in the NE algorithm (maybe a missing force
         % or moment, maybe a sign, maybe dimensions, maybe in the loops or somewhere else)
         % because the plots arent in the same order!
