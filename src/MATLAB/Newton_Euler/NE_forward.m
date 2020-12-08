@@ -1,5 +1,5 @@
 %% Computes alfa and beta for all the bodies
-function [alfa,beta,COM,mass,ms,inertia]= NE_forward(pos,ori,time,body)
+function [alfa,beta,COM,mass]= NE_forward(pos,ori,time,body)
 
     [v, v_dot, w, w_dot] = central_difference(pos,ori,time);
     
@@ -12,9 +12,7 @@ function [alfa,beta,COM,mass,ms,inertia]= NE_forward(pos,ori,time,body)
         if (i ~= [5,6,13,14])
             COM(i,:)=body.(bodyparts(i)).COMpos;
             mass(i)=body.(bodyparts(i)).Mass;
-            if i==2
-                mass(i)=body.(bodyparts(i)).Mass+body.(bodyparts(i-1)).Mass;
-            end
+            
             ms(i,:)= mass(i) * COM(i,:);
             inertia(:,:,i)=body.(bodyparts(i)).Inertia;
         end

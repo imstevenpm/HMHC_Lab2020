@@ -20,7 +20,7 @@ function [] = visualization_adapted(Body, time, pos, ori)
   L_Trunk=Body.lowertrunk;
   
   L=length(time);
-  dt=time(2)-time(1);
+  dt=1/60;
   
 for k=1:L
     hold off;
@@ -140,7 +140,7 @@ for k=1:L
    
    %R foot
    v20=[pos(20,:,k), ori(20,:,k)]';
-   [X,Y,Z]=elliptical(R_Foot.a0,R_Foot.b0,R_Foot.a1,R_Foot.b1,R_Foot.L);  Z=Z-L_Foot.L;
+   [X,Y,Z]=elliptical(R_Foot.a0,R_Foot.b0,R_Foot.a1,R_Foot.b1,R_Foot.L);  Z=Z-R_Foot.L;
    [X,Y,Z]=Rotation_solid(X,Y,Z,-pi/2,0,0);
    [X,Y,Z]=trans_rot(X,Y,Z,v20);
    mesh(X,Y,Z);
@@ -153,9 +153,8 @@ for k=1:L
    [X,Y,Z]=trans_rot(X,Y,Z,v19);
    mesh(X,Y,Z);
    axis([-1 1 -1 1 0 2]);
-    view([1, 1, 1]);
+   view([1, 1, 1]);
    pause(dt/100);
-
   
 end
 

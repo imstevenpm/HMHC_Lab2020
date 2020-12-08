@@ -45,4 +45,5 @@ function [pos,ori,time] = readDRF(filename)
        temp=strsplit(Aux3(i),' ');
        time(i)=str2num(temp(2));
     end
+    
 end

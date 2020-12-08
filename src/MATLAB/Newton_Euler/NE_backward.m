@@ -1,5 +1,5 @@
 %% Computes the ground reactions using the NE backward algorithm
-function [grdf,grdm]= NE_backward(pos,ori,time,Body,alfa,beta,COM,mass,ms,inertia)
+function [grdf,grdm]= NE_backward(pos,ori,alfa,beta,COM,mass)
 
     bodyparts=["lowertrunk","middletrunk","uppertrunk","head","-","-","upperarmL","upperarmR","forearmL",...
         "forearmR","handL","handR","-","-","thighL","thighR","shankL","shankR","footL","footR"];
@@ -55,11 +55,7 @@ function [grdf,grdm]= NE_backward(pos,ori,time,Body,alfa,beta,COM,mass,ms,inerti
                 fr(i,:,j)=alfa(i,:,j)-mass(i)*g + fr(4,:,j) + fr(6,:,j) +fr(5,:,j);
                 mr(i,:,j)=beta(i,:,j)- cross(R*COM(i,:)',mass(i)*g) + mr(4,:,j) + mr(5,:,j) + mr(6,:,j) ...
                     + cross((pos(6,:,j)-pos(3,:,j)),fr(6,:,j)) + cross((pos(5,:,j)-pos(3,:,j)),fr(5,:,j)) ...
-                    + cross((pos(4,:,j)-pos(3,:,j)),fr(4,:,j)); % CHANGE
-            elseif i==2
-                fr(i,:,j)=alfa(i,:,j)-(mass(i)+mass(i-1))*g + fr(i+1,:,j);
-                mr(i,:,j)=beta(i,:,j)- cross(R*COM(i,:)',(mass(i)+mass(i-1))*g)...
-                    + cross((pos(i+1,:,j)-pos(i,:,j)),fr(i+1,:,j)) + mr(i+1,:,j);
+                    + cross((pos(4,:,j)-pos(3,:,j)),fr(4,:,j));
             else
                 fr(i,:,j)=alfa(i,:,j)-(mass(i))*g + fr(i+1,:,j);
                 mr(i,:,j)=beta(i,:,j)- cross(R*COM(i,:)',(mass(i))*g)...
@@ -73,8 +69,8 @@ function [grdf,grdm]= NE_backward(pos,ori,time,Body,alfa,beta,COM,mass,ms,inerti
         for j=1:length(pos)-5
             R= rotx(ori(i,1,j))*roty(ori(i,2,j))*rotz(ori(i,3,j));
             if (i==13 || i==14)
-                fr(i,:,j)=fr(2,:,j)/2;
-                mr(i,:,j)=mr(2,:,j)/2;
+                fr(i,:,j)=fr(1,:,j)/2;
+                mr(i,:,j)=(mr(1,:,j) + cross((pos(1,:,j)-pos(i,:,j)),fr(1,:,j)))/2;
             else
                 fr(i,:,j)=alfa(i,:,j)-mass(i)*g + fr(i-2,:,j);
                 mr(i,:,j)=beta(i,:,j)- cross(R*COM(i,:)',mass(i)*g)...
