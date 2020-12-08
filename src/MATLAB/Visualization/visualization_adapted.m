@@ -153,7 +153,7 @@ for k=1:L
    [X,Y,Z]=trans_rot(X,Y,Z,v19);
    mesh(X,Y,Z);
    axis([-1 1 -1 1 0 2]);
-   
+    view([1, 1, 1]);
    pause(dt/100);
 
   
