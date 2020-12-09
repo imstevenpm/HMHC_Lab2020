@@ -45,6 +45,7 @@ function []= main()
         visualization_adapted(Body, time, pos, ori);
         
         % COMPUTE ENERGIES
+        [kinEnergies,potEnergies] = energyAllBodies(Body, pos, ori,time);
         
         disp('Plotting results:');
         
@@ -55,6 +56,8 @@ function []= main()
         %ForMom_Error(MCfiles(i),steps,F, grdf, grdm);
         %comparing them side by side
         Force_Data_Plot(MCfiles(i), F, grdf, grdm);
+        %Plot energies
+        Tot_Energy_Plot(MCfiles(i), kinEnergies, potEnergies);
         disp('Type a key to continue to next motion');
         pause();
 

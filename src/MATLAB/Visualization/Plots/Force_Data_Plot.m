@@ -60,7 +60,7 @@ title(forces_moments_plot, my_title1 );
 legend('ForcePlates','GroundReactions');
 %Here use your repo by copy pasting the path at the top from matlab
 fname = '../../../Report/Figures';
-saveas(gca,fullfile(fname, filename), 'jpeg');
+% saveas(gca,fullfile(fname, filename), 'jpeg');
 
 end
 
