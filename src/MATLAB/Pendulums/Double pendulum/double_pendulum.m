@@ -10,17 +10,17 @@ dt = 1/n;
 b = 2;
 
 % Lengths
-l = [2,1];
+l = [1,1];
 
 % masses of the bodies
-masses = [3,2];
+masses = [2,2];
 
 % Gravity along -y axis (global frame)
 gravity = [0;-9.8;0];
 
 % COM and ms expressed in i-th frame of the two bodies
 COM(:,1) = [1;0;0];
-COM(:,2) = [0.5;0;0];
+COM(:,2) = [1;0;0];
 ms = [masses(1)*COM(:,1), masses(2)*COM(:,2)];
 inertia_mom = masses .* (l.^2);
 
@@ -41,7 +41,7 @@ pos(2,:,2) = l(1)*sin(q1);
 pos(3,:,2) = zeros(1,n);
 ori(1,:,2) = zeros(1,n);
 ori(2,:,2) = zeros(1,n);
-ori(3,:,1) = q1+q2;
+ori(3,:,2) = q1+q2;
 
 % Obtain velocity and orientation
 v = diff(pos,1,2) / dt;
@@ -58,9 +58,9 @@ w = w(:,1:n,:);
 
 
 % Inertia matrix (in i-th frame)
-inertia_mat(:,:,1) = eye(3);
+inertia_mat(:,:,1) = zeros(3);
 inertia_mat(3,3,1) = inertia_mom(1);
-inertia_mat(:,:,2) = eye(3);
+inertia_mat(:,:,2) = zeros(3);
 inertia_mat(3,3,2) = inertia_mom(2);
 alpha = zeros(3,n,b);
 beta = zeros(3,n,b);
@@ -78,12 +78,12 @@ f_i = zeros(3,n,bi);
 m_i = zeros(3,n,bi);
 
 % Terminal body
-F = [0;0;0];
-M = [0;0;0];
+f_nextbody = [0;0;0];
+m_nextbody = [0;0;0];
+dist = [0;0;0];
 for i = 1:n
-    dist = pos(:,i,1) - pos(:,i,1);
-    [f_i(:,i,1),m_i(:,i,1)] = solveNE_balance(alpha(:,i,1),beta(:,i,1),...
-        ori(:,i,1),COM(:,1),masses(:,1),F(:,1),M(:,1),dist);
+    [f_i(:,i,2),m_i(:,i,2)] = solveNE_balance(alpha(:,i,2),beta(:,i,2),...
+        ori(:,i,2),COM(:,2),masses(:,2),f_nextbody,m_nextbody,dist);
 end
 
 % Loop through the other body
@@ -91,20 +91,20 @@ for bi=b-1:-1:1
     for i=1:n
         f_nextbody = -f_i(:,i,bi+1);
         m_nextbody = -m_i(:,i,bi+1);
-        dist = pos(:,i,bi) - pos(:,i,bi);
+        dist = pos(:,i,bi+1) - pos(:,i,bi);
         [f_i(:,i,bi),m_i(:,i,bi)] = solveNE_balance(alpha(:,i,bi),...
-            beta(:,i,bi),ori(:,i,bi),COM(:,bi),masses(:,bi),F(:,bi),...
-            M(:,bi),dist);
+            beta(:,i,bi),ori(:,i,bi),COM(:,bi),masses(:,bi),f_nextbody,...
+            m_nextbody,dist);
     end
 end
 
 % Obtain ground reaction forces and moments
-GRF(1,:) = -f_i(1,:,1);
-GRF(2,:) = -f_i(2,:,1);
-GRF(3,:) = -f_i(3,:,1);
-GRM(1,:) = -m_i(1,:,1);
-GRM(2,:) = -m_i(2,:,1);
-GRM(3,:) = -m_i(3,:,1);
+GRF(1,:) = f_i(1,:,1);
+GRF(2,:) = f_i(2,:,1);
+GRF(3,:) = f_i(3,:,1);
+GRM(1,:) = m_i(1,:,1);
+GRM(2,:) = m_i(2,:,1);
+GRM(3,:) = m_i(3,:,1);
 
 % Plot ground reaction forces and moments
 figure;

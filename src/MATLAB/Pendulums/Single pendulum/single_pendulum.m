@@ -15,8 +15,8 @@ mass = 2;
 % Gravity along -y axis (global frame)
 gravity = [0;-9.8;0];
 
-% COM and ms expressed in i-th frame
-COM = [0.5;0;0];
+% COM and ms expressed in the link frame
+COM = [l;0;0];
 ms = mass*COM;
 inertia_mom = mass*(l^2);
 
@@ -48,7 +48,7 @@ w = w(:,1:n);
 
 
 % Inertia matrix (in i-th frame)
-inertia_mat = eye(3);
+inertia_mat = zeros(3);
 inertia_mat(3,3) = inertia_mom;
 alpha = zeros(3,n);
 beta = zeros(3,n);
@@ -69,12 +69,12 @@ for i = 1:n
 end
 
 % Obtain ground reaction forces and moments
-GRF(1,:) = -f_i(1,:);
-GRF(2,:) = -f_i(2,:);
-GRF(3,:) = -f_i(3,:);
-GRM(1,:) = -m_i(1,:);
-GRM(2,:) = -m_i(2,:);
-GRM(3,:) = -m_i(3,:);
+GRF(1,:) = f_i(1,:);
+GRF(2,:) = f_i(2,:);
+GRF(3,:) = f_i(3,:);
+GRM(1,:) = m_i(1,:);
+GRM(2,:) = m_i(2,:);
+GRM(3,:) = m_i(3,:);
 
 % Plot ground reaction forces and moments
 figure;
@@ -108,5 +108,3 @@ plot(GRM(3,:))
 title('GRM - Z axis', 'FontSize',12,'FontWeight','bold','Color','#f9a800')
 xlabel('time')
 ylabel('Nm')
-
-
