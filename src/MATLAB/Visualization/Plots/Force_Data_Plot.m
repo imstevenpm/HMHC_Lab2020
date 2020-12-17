@@ -59,8 +59,8 @@ ylabel('Nm')
 title(forces_moments_plot, my_title1 );
 legend('ForcePlates','GroundReactions');
 %Here use your repo by copy pasting the path at the top from matlab
-fname = '../../../Report/Figures';
-% saveas(gca,fullfile(fname, filename), 'jpeg');
+%fname = 'C:\Users\Steven\Desktop\EMARO 2ND YEAR\HMHC\lab\repo2final\src\Report\Figures';
+%saveas(gca,fullfile(fname, filename), 'jpeg');
 
 end
 

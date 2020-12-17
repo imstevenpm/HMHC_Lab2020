@@ -100,4 +100,9 @@ ylabel('cm');
 
 e.Color = 'black';
 e.CapSize = 10;
+
+%fname = 'C:\Users\Steven\Desktop\EMARO 2ND YEAR\HMHC\lab\repo2final\src\Report\Figures';
+%filename=strcat('Hanavan Parameters');
+%saveas(gca,fullfile(fname, filename), 'jpeg');
+
 end

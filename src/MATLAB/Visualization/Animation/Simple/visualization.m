@@ -48,7 +48,7 @@ function [] = visualization(pos, MCfile)
         v = get3dline(12,10,pos,i);
         plot3(v(:,1),v(:,2),v(:,3));
         
-        pause(0.00001);
+        pause(0.0001);
         hold off;
         
     end
