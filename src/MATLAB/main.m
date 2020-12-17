@@ -47,8 +47,8 @@ function []= main()
         %% Visualization
         disp('Visualizating file:');
         disp(MCfiles(i));
-        visualization(pos,MCfiles(i)); % A simpler but faster animation
-        %visualization_adapted(Body, time, pos, ori); % A complex but
+        %visualization(pos,MCfiles(i)); % A simpler but faster animation
+        visualization_adapted(Body, time, pos, ori); % A complex but
         %slower animation
         
         %% Compare results
